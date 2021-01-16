@@ -88,12 +88,11 @@ class VerboseBot(_Bot):
         if not isinstance(self._logging_events, (dict, LogEvents)):
             raise TypeError("Logging events is not a dictionary or LogEvents class.")
         self._log_channel = None
+        super().__init__(*args, **kwargs)
 
         # We need to now passively add listeners so that they can confidently bubble down, instead of us capturing them.
         self.add_listener(self._on_command_error, "on_command_error")
         self.add_listener(self._on_ready, "on_ready")
-
-        super().__init__(*args, **kwargs)
 
     async def _log_bg(self, message: str = None, *, shorten_if_needed: bool = True):
         if not self._log_channel:
@@ -182,6 +181,6 @@ class VerboseBot(_Bot):
             self.log(
                 f"[\N{white heavy check mark} CONNECTION] Bot is now ready!\n"
                 f"{ic(len(self.guilds))} Guilds,"
-                f"{ic(len(self.get_all_channels()))} Channels,"
+                f"{ic(len(set(self.get_all_channels())))} Channels,"
                 f"{ic(len(self.users))} Users"
             )
