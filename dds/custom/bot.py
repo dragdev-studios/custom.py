@@ -111,7 +111,7 @@ class VerboseBot(_Bot):
                     name="VerboseBot Logging"
                 )
             else:
-                webhook = await random.choice(webhooks)
+                webhook = random.choice(webhooks)
             await webhook.send(
                 shorten(message, 2000)
                 if shorten_if_needed and len(message) > 2000
