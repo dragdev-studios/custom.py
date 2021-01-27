@@ -1,23 +1,23 @@
 import asyncio
 import random
+from sys import stderr
+from textwrap import shorten
+from traceback import print_exc
+from typing import Optional
 
 import discord
 from discord.ext.commands import Bot as _Bot
-from typing import Optional
-from sys import stderr
-from traceback import print_exc
-from textwrap import shorten
 from humanize import intcomma as ic
 
 
 class LogEvents(dict):
     def __init__(
-        self,
-        *,
-        connection: bool = True,
-        on_ready: bool = True,
-        commands: bool = True,
-        command_errors: bool = True,
+            self,
+            *,
+            connection: bool = True,
+            on_ready: bool = True,
+            commands: bool = True,
+            command_errors: bool = True,
     ):
         super().__init__(
             connection=connection,
@@ -50,8 +50,8 @@ class QOLBot(_Bot):
             try:
                 await job
             except (
-                Exception,
-                BaseException,
+                    Exception,
+                    BaseException,
             ) as e:  # the two exceptions here are to please linters.
                 print(
                     "(QOLBot Worker) Failed to do job ID '{}' - Skipping.", file=stderr
@@ -103,7 +103,7 @@ class VerboseBot(_Bot):
             return
 
         if self._log_channel.permissions_for(
-            self._log_channel.guild.me
+                self._log_channel.guild.me
         ).manage_webhooks:
             webhooks = await self._log_channel.webhooks()
             if not webhooks:
@@ -119,7 +119,7 @@ class VerboseBot(_Bot):
             )
         else:
             if self._log_channel.permissions_for(
-                self._log_channel.guild.me
+                    self._log_channel.guild.me
             ).send_messages:
                 await self._log_channel.send(
                     shorten(message, 2000)
@@ -148,7 +148,7 @@ class VerboseBot(_Bot):
             self.log(
                 f"[\N{white heavy check mark} COMMANDS] {ctx.author} (`{ctx.author.id}`) is running command "
                 f"{ctx.command.qualified_name} in {ctx.channel} (`{ctx.channel.id}`), in {ctx.guild} (`"
-                f"{ctx.guild.id}`) with {len(ctx.args)+len(ctx.kwargs)} arguments and permissions"
+                f"{ctx.guild.id}`) with {len(ctx.args) + len(ctx.kwargs)} arguments and permissions"
                 f" (for the author) `{ctx.channel.permissions_for(ctx.author).value}` and "
                 f"(for the bot) `{ctx.channel.permissions_for(ctx.me).value}`."
             )
@@ -161,7 +161,7 @@ class VerboseBot(_Bot):
                 f"[\N{white heavy check mark} COMMANDS] {ctx.author} (`{ctx.author.id}`) is finished running "
                 f"command "
                 f"{ctx.command.qualified_name} in {ctx.channel} (`{ctx.channel.id}`), in {ctx.guild} (`"
-                f"{ctx.guild.id}`) with {len(ctx.args)+len(ctx.kwargs)} arguments."
+                f"{ctx.guild.id}`) with {len(ctx.args) + len(ctx.kwargs)} arguments."
             )
 
     async def _on_command_error(self, ctx, err):
@@ -172,7 +172,7 @@ class VerboseBot(_Bot):
                 f"[\N{cross mark} COMMANDS] {ctx.author} (`{ctx.author.id}`) is finished running "
                 f"command "
                 f"{ctx.command.qualified_name} in {ctx.channel} (`{ctx.channel.id}`), in {ctx.guild} (`"
-                f"{ctx.guild.id}`) with {len(ctx.args)+len(ctx.kwargs)} arguments. However, there was an error:\n"
+                f"{ctx.guild.id}`) with {len(ctx.args) + len(ctx.kwargs)} arguments. However, there was an error:\n"
                 f"```py\n{err.__class__.__name__}: {getattr(err, 'msg', str(err))}\n```"
             )
 

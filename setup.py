@@ -3,7 +3,7 @@ from setuptools import setup
 setup(
     name='custom.py',
     version='1.0.1',
-    packages=['dds.custom'],
+    packages=['dds.custom', 'dds.analytics'],
     url='https://github.com/dragdev-studios/custom.py',
     license='MIT',
     author='EEKIM10',
